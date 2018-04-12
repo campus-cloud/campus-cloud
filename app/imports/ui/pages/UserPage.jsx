@@ -16,7 +16,7 @@ class ListStuff extends React.Component {
   /** Render the page once subscriptions have been received. */
   renderPage() {
     return (
-        <Container>
+        <Container className="content">
           <Header as="h2" textAlign="center">User Page</Header>
           <Header as="h5" textAlign="right" color='blue'>Edit Page</Header>
           <Header as="h2">EMAIL: user@clo.ud</Header>
