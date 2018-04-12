@@ -6,7 +6,6 @@ class Footer extends React.Component {
   render() {
     return (
         <footer>
-              Department of Information and Computer Sciences <br />
           <Container fluid textAlign="center" className="footer">
             Campus Cloud
             <br />
