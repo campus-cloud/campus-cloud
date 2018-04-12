@@ -15,7 +15,7 @@ class Landing extends React.Component {
                 (clubs) at UH Mānoa.
               </Header>
               <Button as={NavLink} inverted basic to="/list" className="list-button" style={{ marginTop: '10vh',
-                fontSize: '20px' }}>Club List</Button>
+                fontSize: '20px' }}>Explore Club List</Button>
             </Container>
           </Container>
           <Grid container centered stackable textAlign='center' columns={3} className="landing-content"
@@ -31,9 +31,9 @@ class Landing extends React.Component {
               <span className="feature">Discover clubs that match your interests.</span>
             </Grid.Column>
           </Grid>
+
           <Grid container centered stackable textAlign='center' columns={3} className="landing-content"
                 style={{ background: '#2962FF' }}>
-
             <Grid.Column width={10} textAlign="center">
               <span className="feature">Refine your search based on various filters.</span>
             </Grid.Column>
@@ -48,7 +48,6 @@ class Landing extends React.Component {
 
           <Grid container centered stackable textAlign='center' columns={3} className="landing-content"
                 style={{ background: '#304FFE' }}>
-
             <Grid.Column width={6} textAlign="center">
               <div className="feature">
                 <Icon size="big" name="sort content ascending" />
