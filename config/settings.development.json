@@ -1,24 +1,13 @@
 {
   "defaultAccounts": [
-    { "email": "admin@clo.ud", "password": "cloudy-campus", "role": "admin" },
-    { "email": "club@clo.ud", "password": "cloudy-campus", "role": "club-owner" },
-    { "email": "user@clo.ud", "password": "cloudy-campus" }
+    { "email": "admin@foo.com", "password": "changeme", "role": "admin" },
+    { "email": "john@foo.com", "password": "changeme" }
   ],
 
-  "defaultClubs": [
-    {
-      "name": "ACM Manoa",
-      "description": "The Association for Computing Machinery at Manoa is UH Manoa’s student chapter of the Association for Computing Machinery. We are a Registered Independent Organization (RIO) focused on providing opportunities and resources for our members’ personal and professional advancement.",
-      "tags": ["ics"],
-      "image": "https://acmanoa.github.io/images/bio-photo.jpg",
-      "owner": "club@foo.com"
-    },
-    {
-      "name": "Grey Hats",
-      "description": "The ICS Grey Hats is a student-led, extracurricular organization focused on real-world training for cyber defense. Membership gives students an outstanding opportunity to learn and apply critical skills, and to share with others interested in modern security issues.",
-      "tags": ["ics", "security"],
-      "image": "https://avatars3.githubusercontent.com/u/17755980",
-      "owner": "club@foo.com"
-    }
+  "defaultData": [
+    { "name": "Basket", "quantity": 3, "owner": "john@foo.com", "condition": "excellent" },
+    { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
+    { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
+    { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
   ]
 }

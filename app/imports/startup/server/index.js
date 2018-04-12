@@ -1,2 +1,2 @@
 import './accounts.js';
-import './clubs.js';
+import './stuff.js';
