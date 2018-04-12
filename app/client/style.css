@@ -1,0 +1,16 @@
+.ui.top.inverted.menu {
+  height: 60px;
+  background: #1976D2;
+}
+
+.footer {
+  padding: 70px 0 50px;
+  background: #0D47A1;
+  color: #FFF;
+}
+
+@media only screen and (max-width: 767px) {
+  .ui.container {
+    margin: 0 !important;
+  }
+}
