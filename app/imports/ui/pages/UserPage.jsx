@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Header, Loader, Segment, Label } from 'semantic-ui-react';
+import { Container, Header, Loader, Segment, Label, Message, Icon } from 'semantic-ui-react';
 import { Stuffs } from '/imports/api/stuff/stuff';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
@@ -16,7 +16,7 @@ class ListStuff extends React.Component {
   /** Render the page once subscriptions have been received. */
   renderPage() {
     return (
-        <Container>
+        <Container className='content'>
           <Header as="h2" textAlign="center">User Page</Header>
           <Header as="h5" textAlign="right" color='blue'>Edit Page</Header>
           <Header as="h2">EMAIL: user@clo.ud</Header>
@@ -27,6 +27,11 @@ class ListStuff extends React.Component {
             <Label as='a' tag>Outdoors</Label>
             <Label as='a' tag>Music</Label>
           </Segment>
+          <Header as="h2" color='red'>News:</Header>
+          <Message compact>
+            <Icon className='alarm outline'/>
+            New clubs have been added to the list. Check it Out!
+          </Message>
         </Container>
     );
   }
