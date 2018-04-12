@@ -1,0 +1,64 @@
+.list-button.ui.basic.inverted.button {
+  color: #FFF !important;
+  box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 1) inset !important;
+}
+
+.list-button.ui.basic.inverted.button:hover {
+  background: #FFF !important;
+  color: #2196F3 !important;
+  box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.5) inset !important;
+}
+
+.landing-background {
+  min-height: calc(100vh - 60px);
+  padding: 20vh 0;
+  /*background: url("/images/landing-background.jpg");*/
+  /*background-size: cover;*/
+  background: radial-gradient(ellipse at center, rgba(100,181,246,1) 0%, rgba(33,150,243,1) 100%);
+}
+
+.landing-background h1.ui.header {
+  padding: 0 0 50px 0;
+  font-size: 50px;
+  font-weight: normal;
+}
+
+.landing-background h2.ui.header {
+  font-size: 30px;
+  font-weight: normal;
+}
+
+.landing-content.ui.grid.container {
+  color: #FFF;
+  width: 100vw !important;
+  margin: 0;
+  font-size: 20px;
+  line-height: 25px;
+}
+
+.landing-content.ui.grid.container > div {
+  display: inline-flex;
+  padding: 15vh 0;
+}
+
+.landing-content .heading {
+  padding: 30px 0;
+  font-size: 30px;
+  font-weight: normal;
+}
+
+.feature {
+  margin: auto;
+}
+
+.footer {
+  padding: 70px 0 50px;
+  background: #0D47A1;
+  color: #FFF;
+}
+
+@media only screen and (max-width: 767px) {
+  .ui.container {
+    margin: 0 !important;
+  }
+}
