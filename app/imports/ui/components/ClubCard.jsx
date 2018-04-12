@@ -7,7 +7,7 @@ import { withRouter, Link } from 'react-router-dom';
 class ClubCard extends React.Component {
   render() {
     return (
-        <Card centered>
+        <Card>
           <Card.Content>
             <Card.Header>
               {this.props.club.name}
