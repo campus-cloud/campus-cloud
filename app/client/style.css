@@ -5,7 +5,7 @@
 }
 
 .content {
-  padding: 30px 0 50px;
+  padding: 30px 0 50px !important;
 }
 
 .list-button.ui.basic.inverted.button {

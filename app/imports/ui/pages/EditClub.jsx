@@ -31,7 +31,7 @@ class EditClub extends React.Component {
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   renderPage() {
     return (
-        <Grid container centered>
+        <Grid container centered className="content">
           <Grid.Column>
             <Header as="h2" textAlign="center">Club Settings</Header>
             <AutoForm schema={ClubSchema} onSubmit={this.submit} model={this.props.doc}>
