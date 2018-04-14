@@ -9,8 +9,6 @@ import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
 import UserPage from '../pages/UserPage';
 import ListClubs from '../pages/ListClubs';
-import ListStuffAdmin from '../pages/ListStuffAdmin';
-import ListClubsAdmin from '../pages/ListClubsAdmin';
 import AddStuff from '../pages/AddStuff';
 import EditClub from '../pages/EditClub';
 import EditStuff from '../pages/EditStuff';
@@ -35,8 +33,6 @@ class App extends React.Component {
               <ProtectedRoute path="/add" component={AddStuff}/>
               <Route path="/view/:_id" component={EditStuff}/>
               <ProtectedRoute path="/edit/:_id" component={EditClub}/>
-              <AdminProtectedRoute path="/admin" component={ListClubsAdmin}/>
-              <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>
             </Switch>
