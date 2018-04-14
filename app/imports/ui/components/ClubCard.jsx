@@ -11,17 +11,32 @@ class ClubCard extends React.Component {
   render() {
     const cardStyle = { width: 'calc(100% / 3 - 14px)', flexDirection: 'row' };
     const imageStyle = { margin: 'auto' };
-    const detailContentStyle = { display: 'flex', flexDirection: 'column', paddingLeft: 0 };
+    const detailContentStyle = { display: 'flex', flexDirection: 'column', paddingLeft: 0, border: 0 };
     const descriptionStyle = { marginBottom: '10px', flex: 1 };
 
-    const clubOwnerButtons = Roles.userIsInRole(Meteor.userId(), 'club-owner') && this.props.club.owner === Meteor.user().username ? ([
-      <Button as={Link} to={`/edit/${this.props.club._id}`} fluid basic color='green'>Edit</Button>,
-    ]) : '';
-    const adminButtons = Roles.userIsInRole(Meteor.userId(), 'admin') ? ([
-      <Button fluid basic color='grey'>Deactivate</Button>,
-      <Button fluid basic color='red'>Delete</Button>,
-    ]) : '';
-    const buttonGroupWidth = 1 + clubOwnerButtons.length + adminButtons.length;
+    const displayedButtons = [
+        <Button as={Link} to={`/view/${this.props.club._id}`} fluid basic color='blue'>View Details</Button>,
+    ];
+
+    if (Roles.userIsInRole(Meteor.userId(), 'club-owner') && this.props.club.owner === Meteor.user().username) {
+      displayedButtons.push(<Button as={Link} to={`/edit/${this.props.club._id}`} fluid basic
+                                    color='green'>Edit</Button>);
+    }
+
+    if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
+      displayedButtons.push(
+          <Button fluid basic color='grey'>Deactivate</Button>,
+          <Button fluid basic color='red'>Delete</Button>,
+      );
+    }
+
+    const buttons = displayedButtons.length;
+
+    if (buttons >= 3) {
+      for (let i = buttons - 1; i >= 1; i--) {
+        displayedButtons.splice(i, 0, <div style={{ width: '100%', height: '5px', margin: 0, padding: 0 }}/>);
+      }
+    }
 
     return (
         <Card style={cardStyle}>
@@ -38,11 +53,12 @@ class ClubCard extends React.Component {
             <Card.Description style={descriptionStyle}>
               {this.props.club.description.length > 123 ? `${this.props.club.description.substring(0, 120)}...` : this.props.club.description}
             </Card.Description>
-            <Button.Group vertical={buttonGroupWidth > 2} widths={buttonGroupWidth > 2 ? 1 : buttonGroupWidth}>
-              <Button as={Link} to={`/view/${this.props.club._id}`} fluid basic color='blue'>View Details</Button>
-              {clubOwnerButtons}
-              {adminButtons}
-            </Button.Group>
+            {buttons < 3 ?
+                (<Button.Group widths={buttons}>
+                  {(displayedButtons)}
+                </Button.Group>)
+                : (displayedButtons)
+            }
           </Card.Content>
         </Card>
     );

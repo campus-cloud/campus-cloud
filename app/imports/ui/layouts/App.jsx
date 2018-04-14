@@ -9,8 +9,6 @@ import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
 import UserPage from '../pages/UserPage';
 import ListClubs from '../pages/ListClubs';
-import ListStuffAdmin from '../pages/ListStuffAdmin';
-import ListClubsAdmin from '../pages/ListClubsAdmin';
 import AddStuff from '../pages/AddStuff';
 import EditClub from '../pages/EditClub';
 import EditStuff from '../pages/EditStuff';
