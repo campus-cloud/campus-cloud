@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Header, Button, Grid, Icon } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 /** A simple static component to render some text for the landing page. */
 class Landing extends React.Component {
@@ -14,8 +14,8 @@ class Landing extends React.Component {
                 A clean, easy-to-use interface to view and explore all of the Registered Independent Organizations
                 (clubs) at UH Mānoa.
               </Header>
-              <Button as={NavLink} inverted basic to="/list" className="list-button" style={{ marginTop: '10vh',
-                fontSize: '20px' }}>Explore Club List</Button>
+              <Button as={Link} inverted basic to="/list" className="list-button" style={{ marginTop: '10vh',
+                fontSize: '20px' }}>Discover Mānoa Clubs</Button>
             </Container>
           </Container>
           <Grid container centered stackable textAlign='center' columns={3} className="landing-content"
@@ -28,14 +28,14 @@ class Landing extends React.Component {
             </Grid.Column>
 
             <Grid.Column width={10} textAlign="center">
-              <span className="feature">Discover clubs that match your interests.</span>
+              <span className="feature">Use the search to discover new clubs based on your interests. You’ll be able to sort by tags to find clubs that you may have never heard of. You can also list your interests in your profile to be notified whenever a club that matches your interests is created.</span>
             </Grid.Column>
           </Grid>
 
           <Grid container centered stackable textAlign='center' columns={3} className="landing-content"
                 style={{ background: '#2962FF' }}>
             <Grid.Column width={10} textAlign="center">
-              <span className="feature">Refine your search based on various filters.</span>
+              <span className="feature">Sort and refine your search results based on various filters.</span>
             </Grid.Column>
 
             <Grid.Column width={6} textAlign="center">
@@ -51,12 +51,12 @@ class Landing extends React.Component {
             <Grid.Column width={6} textAlign="center">
               <div className="feature">
                 <Icon size="big" name="sort content ascending" />
-                <div className="heading">Sort</div>
+                <div className="heading">Feature</div>
               </div>
             </Grid.Column>
 
             <Grid.Column width={10} textAlign="center">
-              <span className="feature">Sort clubs by various data sets.</span>
+              <span className="feature">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas risus orci, viverra quis lacinia id, volutpat vel ligula. Nunc sodales eu risus in pretium. Proin cursus mauris odio, condimentum tempor tortor pellentesque et. Morbi consequat velit dolor, vel vestibulum purus tempor vestibulum.</span>
             </Grid.Column>
           </Grid>
         </Container>
