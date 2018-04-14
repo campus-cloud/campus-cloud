@@ -33,7 +33,7 @@ class ListClubs extends React.Component {
               </Button>
               : ''}
 
-          <Card.Group style={{ marginTop: '10px' }}>
+          <Card.Group style={{ marginTop: '5px' }}>
             {this.props.clubs.map((club, index) => <ClubCard key={index} club={club} />)}
           </Card.Group>
         </Container>
