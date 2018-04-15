@@ -46,14 +46,14 @@ export default class Signin extends React.Component {
     }
     // Otherwise return the Login form.
     return (
-        <Container>
+        <Container className="content">
           <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
             <Grid.Column>
               <Header as="h2" textAlign="center">
                 Login to your account
               </Header>
               <Form onSubmit={this.handleSubmit}>
-                <Segment stacked>
+                <Segment>
                   <Form.Input
                       label="Email"
                       icon="user"
