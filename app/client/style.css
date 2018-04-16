@@ -4,30 +4,31 @@
   background: #1976D2;
 }
 
-.content.container {
-  padding: 30px 0 50px !important;
+.content.ui.container {
+  padding-top: 30px !important;
+  padding-bottom: 50px !important;
 }
 
 .list-button.ui.basic.inverted.button {
   color: #FFF !important;
-  box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 1) inset !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 1) inset !important;
 }
 
 .list-button.ui.basic.inverted.button:hover {
   background: #FFF !important;
   color: #2196F3 !important;
-  box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.5) inset !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5) inset !important;
 }
 
 .new-button.ui.inverted.green.basic.button {
   color: #2ECC40 !important;
-  box-shadow: 0px 0px 0px 2px #22BE34 inset !important;
+  box-shadow: 0 0 0 2px #22BE34 inset !important;
 }
 
 .new-button.ui.inverted.green.basic.button:hover {
   background: #22BE34 !important;
   color: #FFF !important;
-  box-shadow: 0px 0px 0px 2px #22BE34 inset !important;
+  box-shadow: 0 0 0 2px #22BE34 inset !important;
 }
 
 .landing-background {
@@ -79,8 +80,47 @@
   color: #FFF;
 }
 
+.rio-list.ui.fluid.container.content {
+  padding-left: 40px !important;
+  padding-right: 40px !important;
+}
+
+.view-button.ui.basic.blue.button {
+  color: #2196F3 !important;
+  box-shadow: 0px 0px 0px 1px #2196F3 inset !important;
+}
+
+.view-button.ui.basic.blue.button:hover {
+  background: #2196F3 !important;
+  color: #FFF !important;
+  box-shadow: 0px 0px 0px 1px #2196F3 inset !important;
+}
+
+.edit-button.ui.basic.green.button:hover {
+  background: #21BA45 !important;
+  color: #FFF !important;
+  box-shadow: 0px 0px 0px 1px #21BA45 inset !important;
+}
+
+.activate-button.ui.basic.grey.button:hover {
+  background: #767676 !important;
+  color: #FFF !important;
+  box-shadow: 0px 0px 0px 1px #767676 inset !important;
+}
+
+.delete-button.ui.basic.red.button:hover {
+  color: #F44336 !important;
+  box-shadow: 0px 0px 0px 1px #F44336 inset !important;
+}
+
+.delete-button.ui.basic.red.button:hover {
+  background: #F44336 !important;
+  color: #FFF !important;
+  box-shadow: 0px 0px 0px 1px #F44336 inset !important;
+}
+
 @media only screen and (max-width: 767px) {
-  .ui.container {
+  div.ui.container {
     margin: 0 !important;
   }
 }
