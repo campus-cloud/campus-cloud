@@ -11,11 +11,11 @@ class Landing extends React.Component {
             <Container>
               <Header inverted as="h1">Campus Cloud</Header>
               <Header inverted as="h2">
-                A clean, easy-to-use interface to view and explore all of the Registered Independent Organizations
-                (clubs) at UH Mānoa.
+                A simple, clean, and easy-to-use interface to view and explore all of the Registered Independent Organizations
+                (RIOs) at the University of Hawaiʻi at Mānoa.
               </Header>
               <Button as={Link} inverted basic to="/list" className="list-button" style={{ marginTop: '10vh',
-                fontSize: '20px' }}>Discover Mānoa Clubs</Button>
+                fontSize: '20px' }}>Discover Mānoa RIOs</Button>
             </Container>
           </Container>
           <Grid container centered stackable textAlign='center' columns={3} className="landing-content"
@@ -28,7 +28,7 @@ class Landing extends React.Component {
             </Grid.Column>
 
             <Grid.Column width={10} textAlign="center">
-              <span className="feature">Use the search to discover new clubs based on your interests. You’ll be able to sort by tags to find clubs that you may have never heard of. You can also list your interests in your profile to be notified whenever a club that matches your interests is created.</span>
+              <span className="feature">Use the search to discover new RIOs based on your interests. You’ll be able to sort by tags to find clubs and organizations that you never knew existed. You can also list your interests in your profile to be notified whenever an organization that matches your interests is created.</span>
             </Grid.Column>
           </Grid>
 

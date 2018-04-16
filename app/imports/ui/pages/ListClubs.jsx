@@ -19,7 +19,7 @@ class ListClubs extends React.Component {
   renderPage() {
     return (
         <Container className="content">
-          <Header as="h2" textAlign="center">Browse Clubs</Header>
+          <Header as="h2" textAlign="center">Browse RIOs</Header>
 
           <Form style={{ margin: '0 4vw 15px' }}>
             <input type="text" placeholder="Search..." style={{ width: '87%', minWidth: 'calc(100% - 150px)', height: '50px', borderTopRightRadius: 0, borderBottomRightRadius: 0, fontSize: '15px', lineHeight: '15px' }} />
@@ -27,9 +27,9 @@ class ListClubs extends React.Component {
           </Form>
 
           {Roles.userIsInRole(Meteor.userId(), 'admin') ?
-              <Button inverted basic color='green' className="new-button">
-                <Icon name='add' />
-                Add Club
+              <Button inverted basic color="green" className="new-button">
+                <Icon name="add" />
+                Create New RIO
               </Button>
               : ''}
 
