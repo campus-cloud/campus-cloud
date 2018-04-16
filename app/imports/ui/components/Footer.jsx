@@ -10,7 +10,7 @@ class Footer extends React.Component {
             Campus Cloud
             <br />
             <br />
-            Made with love and aloha.
+            Made with care and aloha.
           </Container>
         </footer>
     );

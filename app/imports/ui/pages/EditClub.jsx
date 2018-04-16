@@ -33,7 +33,7 @@ class EditClub extends React.Component {
     return (
         <Grid container centered className="content">
           <Grid.Column>
-            <Header as="h2" textAlign="center">Club Settings</Header>
+            <Header as="h2" textAlign="center">RIO Settings</Header>
             <AutoForm schema={ClubSchema} onSubmit={this.submit} model={this.props.doc}>
               <Segment>
                 <TextField name='name'/>

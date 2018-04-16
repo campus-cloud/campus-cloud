@@ -37,14 +37,14 @@ export default class Signup extends React.Component {
   /** Display the signup form. */
   render() {
     return (
-        <Container>
+        <Container className="content">
           <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
             <Grid.Column>
               <Header as="h2" textAlign="center">
                 Register your account
               </Header>
               <Form onSubmit={this.handleSubmit}>
-                <Segment stacked>
+                <Segment>
                   <Form.Input
                       label="Email"
                       icon="user"
