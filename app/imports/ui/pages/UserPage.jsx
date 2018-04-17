@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Header, Loader, Segment, Label, Message, Icon } from 'semantic-ui-react';
+import { Container, Header, Loader, Segment, Label, Message, Icon, Button } from 'semantic-ui-react';
 import { Clubs } from '/imports/api/club/club';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
@@ -18,8 +18,8 @@ class UserPage extends React.Component {
     return (
         <Container className='content'>
           <Header as="h2" textAlign="center">User Page</Header>
-          <Header as="h5" textAlign="right" color='blue'>Edit Page</Header>
-          <Header as="h2">EMAIL: user@clo.ud</Header>
+          <Button floated="right" color='blue'>Edit Page</Button>
+          <Header as="h2">EMAIL:<a>{this.props.currentUser}</a></Header>
           <Header as="h2">Interests:</Header>
           <Segment padded>
             <Label as='a' tag>Exercise</Label>
@@ -41,6 +41,7 @@ class UserPage extends React.Component {
 UserPage.propTypes = {
   clubs: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
+  currentUser: PropTypes.string,
 };
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
@@ -50,5 +51,6 @@ export default withTracker(() => {
   return {
     clubs: Clubs.find({}).fetch(),
     ready: subscription.ready(),
+    currentUser: Meteor.user() ? Meteor.user().username : '',
   };
 })(UserPage);
