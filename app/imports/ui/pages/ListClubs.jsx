@@ -1,7 +1,7 @@
 /* global window, document */
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Segment, Header, Button, Icon, Form, Card, Loader } from 'semantic-ui-react';
+import { Container, Segment, Header, Button, Icon, Form, Card, Loader, Message } from 'semantic-ui-react';
 import { Clubs } from '/imports/api/club/club';
 import ClubCard from '/imports/ui/components/ClubCard';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -25,6 +25,7 @@ class ListClubs extends React.Component {
       cardWidth: '',
     };
 
+    this.clubs = [];
     this.searchTimeout = undefined;
 
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -33,6 +34,8 @@ class ListClubs extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    return true;
+
     if (this.state.ready !== nextState.ready) {
       return true;
     }
@@ -50,7 +53,8 @@ class ListClubs extends React.Component {
     let interval;
     interval = setInterval(() => {
       if (this.props.ready) {
-        this.setState({ ready: true, clubs: this.props.clubs });
+        this.clubs = this.props.clubs;
+        this.setState({ ready: true });
 
         clearInterval(interval);
         interval = undefined;
@@ -85,20 +89,20 @@ class ListClubs extends React.Component {
     const search = event.target.value;
     const self = this;
 
-    // if (this.searchTimeout !== undefined) {
-    //   clearTimeout(this.searchTimeout);
-    //   this.searchTimeout = undefined;
-    // }
-    //
-    // this.searchTimeout = setTimeout(() => {
-    //   self.searchTimeout = undefined;
-    //
-    //   self.setState({ search: search, clubs: self.search(search) });
-    // }, 5);
+    if (this.searchTimeout !== undefined) {
+      clearTimeout(this.searchTimeout);
+      this.searchTimeout = undefined;
+    }
+
+    this.searchTimeout = setTimeout(() => {
+      self.searchTimeout = undefined;
+      self.clubs = self.search(search);
+
+      self.setState({ search: search });
+    }, 250);
 
     // Causes too much lag while repainting components
     // this.setState({ search: search });
-    self.setState({ search: search, clubs: self.search(search) });
   }
 
   search(searchTerms) {
@@ -254,9 +258,22 @@ class ListClubs extends React.Component {
               </Button>
               : ''}
 
-          <Card.Group style={{ marginTop: '5px' }}>
-            {this.state.clubs.map((club, index) => <ClubCard key={club._id} club={club} width={this.state.cardWidth}/>)}
-          </Card.Group>
+          {
+            this.clubs.length > 0 ?
+                <Card.Group style={{ marginTop: '5px' }}>
+                  {this.clubs.map((club, index) => <ClubCard key={club._id} club={club}
+                                                                   width={this.state.cardWidth}/>)}
+                </Card.Group>
+                :
+                <Message>
+                  <Message.Header>
+                    No Results!
+                  </Message.Header>
+                  <p>
+                    There are no RIOs to show!
+                  </p>
+                </Message>
+          }
         </Container>
     );
   }
@@ -273,7 +290,7 @@ export default withTracker(() => {
   // Get access to Clubs documents.
   const subscription = Meteor.subscribe('Clubs');
   return {
-    clubs: Clubs.find({}).fetch(),
+    clubs: Clubs.find(Roles.userIsInRole(Meteor.userId(), 'admin') ? {} : { active: true }).fetch(),
     ready: subscription.ready(),
   };
 })(ListClubs);
