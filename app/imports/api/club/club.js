@@ -11,7 +11,10 @@ const ClubSchema = new SimpleSchema({
   description: String,
   type: String,
   tags: [String],
-  image: String,
+  image: {
+    type: String,
+    optional: true,
+  },
   rioEmail: {
     type: String,
     optional: true,

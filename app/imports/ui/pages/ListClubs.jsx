@@ -252,7 +252,7 @@ class ListClubs extends React.Component {
           </Form>
 
           {Roles.userIsInRole(Meteor.userId(), 'admin') ?
-              <Button inverted basic color="green" className="new-button">
+              <Button basic color="green" className="new-button">
                 <Icon name="add" />
                 Create New RIO
               </Button>
