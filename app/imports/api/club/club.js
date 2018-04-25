@@ -9,9 +9,31 @@ const Clubs = new Mongo.Collection('clubs');
 const ClubSchema = new SimpleSchema({
   name: String,
   description: String,
+  type: String,
   tags: [String],
-  image: String,
-  owner: String,
+  image: {
+    type: String,
+    optional: true,
+  },
+  rioEmail: {
+    type: String,
+    optional: true,
+  },
+  contactName: String,
+  contactEmail: {
+    type: String,
+    optional: true,
+  },
+  website: {
+    type: String,
+    optional: true,
+  },
+  owner: {
+    type: String,
+    optional: true,
+  },
+  active: Boolean,
+  created: SimpleSchema.Integer,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

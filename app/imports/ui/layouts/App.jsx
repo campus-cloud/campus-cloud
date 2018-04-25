@@ -11,18 +11,19 @@ import UserPage from '../pages/UserPage';
 import ListClubs from '../pages/ListClubs';
 import AddStuff from '../pages/AddStuff';
 import EditClub from '../pages/EditClub';
-import EditStuff from '../pages/EditStuff';
+import ViewClub from '../pages/ViewClub';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
 import Signout from '../pages/Signout';
+import ImportClubs from '../pages/ImportClubs';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
   render() {
     return (
         <Router>
-          <div>
+          <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <NavBar/>
             <Switch>
               <Route exact path="/" component={Landing}/>
@@ -30,8 +31,8 @@ class App extends React.Component {
               <Route path="/signup" component={Signup}/>
               <ProtectedRoute path="/userpage" component={UserPage}/>
               <Route path="/list" component={ListClubs}/>
-              <ProtectedRoute path="/add" component={AddStuff}/>
-              <Route path="/view/:_id" component={EditStuff}/>
+              <AdminProtectedRoute path="/import" component={ImportClubs}/>
+              <Route path="/view/:_id" component={ViewClub}/>
               <ProtectedRoute path="/edit/:_id" component={EditClub}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>

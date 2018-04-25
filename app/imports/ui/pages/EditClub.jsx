@@ -17,8 +17,19 @@ class EditClub extends React.Component {
 
   /** On successful submit, insert the data. */
   submit(data) {
-    const { name, description, image, _id } = data;
-    Clubs.update(_id, { $set: { name, description, image } }, (error) => (error ?
+    const { name, description, _id } = data;
+    const image = (data.image === undefined || data.image.trim() === '') ? undefined : data.image.trim();
+    const toSet = { name, description, image };
+    const toUnset = { };
+    if (image !== undefined) {
+      console.log('Set image');
+      toSet.image = image;
+    } else {
+      console.log('Unset image');
+      toUnset.image = '';
+    }
+
+    Clubs.update(_id, { $set: toSet, $unset: toUnset }, (error) => (error ?
         Bert.alert({ type: 'danger', message: `Update failed: ${error.message}` }) :
         Bert.alert({ type: 'success', message: 'Update succeeded' })));
   }
@@ -37,8 +48,12 @@ class EditClub extends React.Component {
             <AutoForm schema={ClubSchema} onSubmit={this.submit} model={this.props.doc}>
               <Segment>
                 <TextField name='name'/>
-                <LongTextField name='description'/>
                 <TextField name='image'/>
+                <LongTextField name='description'/>
+                <TextField name='rioEmail'/>
+                <TextField name='contactName'/>
+                <TextField name='contactEmail'/>
+                <TextField name='website'/>
                 <SubmitField value='Submit'/>
                 <ErrorsField/>
                 <HiddenField name='owner' />
@@ -50,7 +65,7 @@ class EditClub extends React.Component {
   }
 }
 
-/** Require the presence of a Stuff document in the props object. Uniforms adds 'model' to the props, which we use. */
+/** Require the presence of a Club document in the props object. Uniforms adds 'model' to the props, which we use. */
 EditClub.propTypes = {
   doc: PropTypes.object,
   model: PropTypes.object,
@@ -61,7 +76,7 @@ EditClub.propTypes = {
 export default withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
-  // Get access to Stuff documents.
+  // Get access to Club documents.
   const subscription = Meteor.subscribe('Clubs');
   return {
     doc: Clubs.findOne(documentId),
