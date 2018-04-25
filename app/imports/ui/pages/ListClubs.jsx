@@ -6,6 +6,7 @@ import { Clubs } from '/imports/api/club/club';
 import ClubCard from '/imports/ui/components/ClubCard';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 
 /** Renders a table containing all of the Club documents. Use <ClubCard> to render each club. */
@@ -252,7 +253,7 @@ class ListClubs extends React.Component {
           </Form>
 
           {Roles.userIsInRole(Meteor.userId(), 'admin') ?
-              <Button basic color="green" className="new-button">
+              <Button as={Link} to='/create' basic color="green" className="new-button">
                 <Icon name="add" />
                 Create New RIO
               </Button>
@@ -262,7 +263,7 @@ class ListClubs extends React.Component {
             this.clubs.length > 0 ?
                 <Card.Group style={{ marginTop: '5px' }}>
                   {this.clubs.map((club, index) => <ClubCard key={club._id} club={club}
-                                                                   width={this.state.cardWidth}/>)}
+                                                             width={this.state.cardWidth}/>)}
                 </Card.Group>
                 :
                 <Message>

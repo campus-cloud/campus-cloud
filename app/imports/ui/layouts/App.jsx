@@ -10,6 +10,7 @@ import Landing from '../pages/Landing';
 import UserPage from '../pages/UserPage';
 import ListClubs from '../pages/ListClubs';
 import AddStuff from '../pages/AddStuff';
+import CreateClub from '../pages/CreateClub';
 import EditClub from '../pages/EditClub';
 import ViewClub from '../pages/ViewClub';
 import NotFound from '../pages/NotFound';
@@ -31,6 +32,7 @@ class App extends React.Component {
               <Route path="/signup" component={Signup}/>
               <ProtectedRoute path="/userpage" component={UserPage}/>
               <Route path="/list" component={ListClubs}/>
+              <ProtectedRoute path="/create" component={CreateClub}/>
               <AdminProtectedRoute path="/import" component={ImportClubs}/>
               <Route path="/view/:_id" component={ViewClub}/>
               <ProtectedRoute path="/edit/:_id" component={EditClub}/>
