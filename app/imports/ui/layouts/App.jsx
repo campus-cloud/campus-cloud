@@ -11,7 +11,7 @@ import UserPage from '../pages/UserPage';
 import ListClubs from '../pages/ListClubs';
 import AddStuff from '../pages/AddStuff';
 import EditClub from '../pages/EditClub';
-import EditStuff from '../pages/EditStuff';
+import ViewClub from '../pages/ViewClub';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
@@ -32,6 +32,7 @@ class App extends React.Component {
               <ProtectedRoute path="/userpage" component={UserPage}/>
               <Route path="/list" component={ListClubs}/>
               <AdminProtectedRoute path="/import" component={ImportClubs}/>
+              <Route path="/view/:_id" component={ViewClub}/>
               <ProtectedRoute path="/edit/:_id" component={EditClub}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>
