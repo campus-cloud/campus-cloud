@@ -23,7 +23,7 @@ class App extends React.Component {
   render() {
     return (
         <Router>
-          <div>
+          <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <NavBar/>
             <Switch>
               <Route exact path="/" component={Landing}/>

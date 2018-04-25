@@ -1,3 +1,6 @@
+#root {
+  min-height: 100vh;
+}
 
 .ui.top.inverted.menu {
   height: 60px;
@@ -7,6 +10,7 @@
 .content.ui.container {
   padding-top: 30px !important;
   padding-bottom: 50px !important;
+  flex: 1;
 }
 
 .list-button.ui.basic.inverted.button {
