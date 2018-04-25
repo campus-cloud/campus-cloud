@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Clubs } from '../../api/club/club';
 
+
 /** Initialize the database with a default data document. */
 function addData(data) {
   console.log(`  Adding: ${data.name} (${data.owner})`);

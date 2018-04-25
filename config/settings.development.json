@@ -27,5 +27,11 @@
       "image": "https://sites.google.com/a/hawaii.edu/acmsa/_/rsrc/1353011661720/home/acmsalogo.jpg",
       "owner": "other@clo.ud"
     }
+  ],
+  "defaultInterests": [
+    {
+      "interests": ["acm", "media", "graphics", "art"],
+      "owner": "user@clo.ud"
+    }
   ]
 }

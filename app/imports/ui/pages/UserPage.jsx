@@ -1,9 +1,9 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Header, Loader, Segment, Label, Message, Icon, Button } from 'semantic-ui-react';
-import { Clubs } from '/imports/api/club/club';
+import { Container, Header, Loader, Segment, Message, Icon, Button, List, Label } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import { Interests } from '../../api/interests/interests';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class UserPage extends React.Component {
@@ -21,11 +21,12 @@ class UserPage extends React.Component {
           <Button floated="right" color='blue'>Edit Page</Button>
           <Header as="h2">EMAIL:<a>{this.props.currentUser}</a></Header>
           <Header as="h2">Interests:</Header>
-          <Segment padded>
-            <Label as='a' tag>Exercise</Label>
-            <Label as='a' tag>Animals</Label>
-            <Label as='a' tag>Outdoors</Label>
-            <Label as='a' tag>Music</Label>
+          <Segment>
+            <List>
+              <Label tag>
+            { this.props.interests.map(interest => interest.interests + ', ')}
+              </Label>
+            </List>
           </Segment>
           <Header as="h2" color='red'>News:</Header>
           <Message compact>
@@ -39,7 +40,7 @@ class UserPage extends React.Component {
 
 /** Require an array of Club documents in the props. */
 UserPage.propTypes = {
-  clubs: PropTypes.array.isRequired,
+  interests: PropTypes.array,
   ready: PropTypes.bool.isRequired,
   currentUser: PropTypes.string,
 };
@@ -48,9 +49,11 @@ UserPage.propTypes = {
 export default withTracker(() => {
   // Get access to Clubs documents.
   const subscription = Meteor.subscribe('Clubs');
+  const subscription2 = Meteor.subscribe('Interests');
+
   return {
-    clubs: Clubs.find({}).fetch(),
-    ready: subscription.ready(),
+    interests: Interests.find().fetch(),
+    ready: subscription.ready() && subscription2.ready(),
     currentUser: Meteor.user() ? Meteor.user().username : '',
   };
 })(UserPage);
