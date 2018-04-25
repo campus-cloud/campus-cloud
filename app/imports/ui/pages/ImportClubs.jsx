@@ -1,3 +1,4 @@
+/* global window */
 import React from 'react';
 import { Clubs } from '/imports/api/club/club';
 import { Grid, Header, Form, Segment, TextArea, Button } from 'semantic-ui-react';
@@ -45,7 +46,7 @@ class ImportClubs extends React.Component {
         'blue',
         'indigo',
         'violet',
-    ]
+    ];
 
     parser.on('readable', function () {
       let record = parser.read();
@@ -63,6 +64,7 @@ class ImportClubs extends React.Component {
         const availableTags = tags.slice();
         const clubTags = [];
 
+        clubTags.push(club.Type);
         for (let j = 0; j < numberOfTags; j++) {
           const tag = Math.floor(Math.random() * (availableTags.length - 1));
 
@@ -75,12 +77,13 @@ class ImportClubs extends React.Component {
           description: club['Name of Organization'],
           type: club.Type,
           tags: clubTags,
-          image: 'http://howmadareyou.com/wp-content/themes/MAD/images/default_profile_image.png',
           rioEmail: club['RIO Email'] !== '' ? club['RIO Email'] : undefined,
+          contactName: club['Contact Person'],
           contactEmail: club.Email,
           website: club['RIO Website'] !== '' ? club['RIO Website'] : undefined,
           owner,
           active: true,
+          created: Date.now(),
         }, self.insertCallback);
       }
 
@@ -109,8 +112,8 @@ class ImportClubs extends React.Component {
             <Header as="h2" textAlign="center">Import RIOs</Header>
             <Form ref={(ref) => { this.formRef = ref; }} onSubmit={this.handleSubmit}>
               <Segment>
-                Copy and paste the contents of a CSV file downloaded from the list of approved RIOs
-                <TextArea name='csv' onChange={this.handleChange} style={{ fontFamily: 'monospace' }}/>
+                Copy and paste the contents of a CSV file downloaded from the list of approved RIOs:
+                <TextArea name='csv' onChange={this.handleChange} style={{ margin: '15px 0', fontFamily: 'monospace' }}/>
                 <Button type="submit" color="green">Import</Button>
               </Segment>
             </Form>

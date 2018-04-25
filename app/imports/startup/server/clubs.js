@@ -3,7 +3,11 @@ import { Clubs } from '../../api/club/club';
 
 /** Initialize the database with a default data document. */
 function addData(data) {
+  const insertData = data;
+
   console.log(`  Adding: ${data.name} (${data.owner})`);
+
+  insertData.created = Date.now();
   Clubs.insert(data);
 }
 

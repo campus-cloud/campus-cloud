@@ -12,6 +12,7 @@
       "type": "Academic/Professional",
       "tags": ["ics"],
       "image": "https://acmanoa.github.io/images/bio-photo.jpg",
+      "contactName": "Julian Johnson",
       "owner": "club@clo.ud",
       "active": true
     },
@@ -21,8 +22,9 @@
       "type": "Academic/Professional",
       "tags": ["ics", "security"],
       "image": "https://avatars3.githubusercontent.com/u/17755980",
+      "contactName": "Kevin Kirkland",
       "owner": "club@clo.ud",
-      "active": true
+      "active": false
     },
     {
       "name": "Academy for Creative Media Student Association",
@@ -30,6 +32,7 @@
       "type": "Academic/Professional",
       "tags": ["acm", "media", "graphics", "art"],
       "image": "https://sites.google.com/a/hawaii.edu/acmsa/_/rsrc/1353011661720/home/acmsalogo.jpg",
+      "contactName": "Lawrence Lau",
       "owner": "other@clo.ud",
       "active": true
     }

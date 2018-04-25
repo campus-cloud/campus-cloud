@@ -19,6 +19,7 @@ const ClubSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  contactName: String,
   contactEmail: {
     type: String,
     optional: true,
@@ -32,6 +33,7 @@ const ClubSchema = new SimpleSchema({
     optional: true,
   },
   active: Boolean,
+  created: SimpleSchema.Integer,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */
