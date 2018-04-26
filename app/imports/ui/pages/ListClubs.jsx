@@ -35,8 +35,6 @@ class ListClubs extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return true;
-
     if (this.state.ready !== nextState.ready) {
       return true;
     }
