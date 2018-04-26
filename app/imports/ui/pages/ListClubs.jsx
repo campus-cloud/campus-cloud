@@ -61,7 +61,10 @@ class ListClubs extends React.Component {
         interval = undefined;
       }
     }, 50);
-    this.setState({ interval: interval }, this.updateWindowDimensions);
+    this.setState({ interval: interval }, () => {
+      this.updateWindowDimensions();
+      this.search('');
+    });
 
     window.addEventListener('resize', this.updateWindowDimensions);
   }
