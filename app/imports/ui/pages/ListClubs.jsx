@@ -133,7 +133,13 @@ class ListClubs extends React.Component {
     let terms = searchTerms.toLowerCase().trim();
 
     if (terms === '') {
-      return this.props.clubs;
+      const results = this.props.clubs.slice();
+
+      results.sort(function (a, b) {
+        return a.name < b.name ? -1 : 1;
+      });
+
+      return results;
     }
 
     for (let i = 0; i < termReplacements.length; i++) {
