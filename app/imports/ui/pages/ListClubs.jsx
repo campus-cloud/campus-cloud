@@ -32,6 +32,7 @@ class ListClubs extends React.Component {
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.search = this.search.bind(this);
+    this.advancedRef = null;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -136,9 +137,7 @@ class ListClubs extends React.Component {
     if (terms === '') {
       const results = this.props.clubs.slice();
 
-      results.sort(function (a, b) {
-        return a.name < b.name ? -1 : 1;
-      });
+      results.sort((a, b) => (a.name < b.name ? -1 : 1));
 
       return results;
     }
@@ -211,7 +210,7 @@ class ListClubs extends React.Component {
     results = uniqueResults;
 
     // Sort results
-    results.sort(function (a, b) {
+    results.sort((a, b) => {
       if (a.relevance !== b.relevance) {
         return a.relevance > b.relevance ? -1 : 1;
       } else if (a.orderScore !== b.orderScore) {
@@ -252,8 +251,9 @@ class ListClubs extends React.Component {
             <input type="text" placeholder="Search..." onChange={this.handleChange} style={{ width: '87%',
               minWidth: 'calc(100% - 150px)', height: '100%', borderTopRightRadius: 0, borderBottomRightRadius: 0,
               fontSize: '15px', lineHeight: '15px' }} />
-            <Button id="search" icon labelPosition="right" style={{ width: '13%', maxWidth: '150px', height: '100%',
-              margin: 0, borderTopLeftRadius: 0, borderBottomLeftRadius: 0, fontSize: '12px', lineHeight: '12px' }}>
+            <Button ref={(ref) => { this.advancedRef = ref; }} icon labelPosition="right" style={{ width: '13%',
+              maxWidth: '150px', height: '100%', margin: 0, borderTopLeftRadius: 0, borderBottomLeftRadius: 0,
+              fontSize: '12px', lineHeight: '12px' }}>
               Advanced Search
               <Icon name="angle down" />
             </Button>
@@ -298,7 +298,8 @@ export default withTracker(() => {
   // Get access to Clubs documents.
   const subscription = Meteor.subscribe('Clubs');
   return {
-    clubs: Clubs.find(Roles.userIsInRole(Meteor.userId(), 'admin') ? {} : { active: true }).fetch(),
+    clubs: Clubs.find(Roles.userIsInRole(Meteor.userId(), 'admin') ? {} : { active: true }).fetch()
+        .sort((a, b) => (a.name < b.name ? -1 : 1)),
     ready: subscription.ready(),
   };
 })(ListClubs);
