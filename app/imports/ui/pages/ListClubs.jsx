@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { Container, Segment, Header, Button, Icon, Form, Card, Loader, Message } from 'semantic-ui-react';
 import { Clubs } from '/imports/api/club/club';
 import ClubCard from '/imports/ui/components/ClubCard';
+import AdvancedSearch from '/imports/ui/components/AdvancedSearch';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -24,25 +25,39 @@ class ListClubs extends React.Component {
       // width: document.documentElement.clientWidth - 80,
       // height: document.documentElement.clientHeight,
       cardWidth: '',
+      showAdvanced: false,
+      filter: {
+        tags: [],
+        types: [],
+        sort: 'relevance',
+        order: 'descending',
+      },
+      timestamp: Date.now(),
     };
 
     this.clubs = [];
+    this.categories = [];
     this.searchTimeout = undefined;
 
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    this.handleAdvanced = this.handleAdvanced.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.doSearch = this.doSearch.bind(this);
     this.search = this.search.bind(this);
-    this.advancedRef = null;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state.ready !== nextState.ready) {
       return true;
     }
-    if (this.state.search !== nextState.search) {
+    if (this.state.cardWidth !== nextState.cardWidth) {
       return true;
     }
-    if (this.state.cardWidth !== nextState.cardWidth) {
+    if (this.state.showAdvanced !== nextState.showAdvanced) {
+      return true;
+    }
+    if (this.state.timestamp !== nextState.timestamp) {
       return true;
     }
 
@@ -88,27 +103,32 @@ class ListClubs extends React.Component {
     this.setState({ cardWidth: cardWidth });
   }
 
-  handleChange(event) {
-    const search = event.target.value;
-    const self = this;
+  handleAdvanced(event) {
+    this.setState({ showAdvanced: !this.state.showAdvanced });
+  }
 
+  handleFilterChange(tags, type, sort, order) {
+    this.setState({ filter: { tags, type, sort, order } }, this.doSearch);
+  }
+
+  handleChange(event) {
+    this.setState({ search: event.target.value }, this.doSearch);
+  }
+
+  doSearch() {
     if (this.searchTimeout !== undefined) {
       clearTimeout(this.searchTimeout);
       this.searchTimeout = undefined;
     }
 
     this.searchTimeout = setTimeout(() => {
-      self.searchTimeout = undefined;
-      self.clubs = self.search(search);
-
-      self.setState({ search: search });
+      this.searchTimeout = undefined;
+      this.clubs = this.search(this.state.search, this.state.filter);
+      this.setState({ timestamp: Date.now() });
     }, 250);
-
-    // Causes too much lag while repainting components
-    // this.setState({ search: search });
   }
 
-  search(searchTerms) {
+  search(searchTerms, filter) {
     const termReplacements = [
       // Hawaiian vowels
       [/ā/g, 'a'],
@@ -131,13 +151,14 @@ class ListClubs extends React.Component {
       [/[^A-Za-z0-9 ]+/g, ''],
     ];
     const lowRelevanceTerms = ['at', 'in', 'and', 'for', 'the', 'of'];
+    const order = this.state.filter.order === 'descending' ? 1 : -1;
 
     let terms = searchTerms.toLowerCase().trim();
 
     if (terms === '') {
       const results = this.props.clubs.slice();
 
-      results.sort((a, b) => (a.name < b.name ? -1 : 1));
+      results.sort((a, b) => (a.name < b.name ? -order : order));
 
       return results;
     }
@@ -211,13 +232,22 @@ class ListClubs extends React.Component {
 
     // Sort results
     results.sort((a, b) => {
-      if (a.relevance !== b.relevance) {
-        return a.relevance > b.relevance ? -1 : 1;
-      } else if (a.orderScore !== b.orderScore) {
-        return a.orderScore > b.orderScore ? -1 : 1;
+      if (this.state.filter.sort === 'relevance') {
+        if (a.relevance !== b.relevance) {
+          return a.relevance > b.relevance ? -order : order;
+        } else
+          if (a.orderScore !== b.orderScore) {
+            return a.orderScore > b.orderScore ? -order : order;
+          }
+
+        return a.name < b.name ? -order : order;
+      } else if (this.state.filter.sort === 'alphabetical') {
+        return a.name < b.name ? -order : order;
+      } else if (this.state.filter.sort === 'created') {
+        return a.created < b.created ? -order : order;
       }
 
-      return a.name < b.name ? -1 : 1;
+      return a.name < b.name ? -order : order;
     });
 
     // Extract the clubs
@@ -244,20 +274,28 @@ class ListClubs extends React.Component {
   renderPage() {
     return (
         <Container fluid className="content rio-list">
-          <Header as="h2" textAlign="center">{this.state.search === '' ? 'Browse RIOs'
+          <Header as="h2" textAlign="center" style={{ marginBottom: '4px' }}>{this.state.search === '' ? 'Browse RIOs'
               : `Searching for "${this.state.search}"`}</Header>
+          <div style={{ marginBottom: '14px', textAlign: 'center', fontSize: '12px', color: '#AAA' }}>
+            {this.state.search === '' ? '' :
+                `Ordered by ${this.state.filter.sort} in ${this.state.filter.order} order`}
+          </div>
 
-          <Form style={{ height: '45px', margin: '0 4vw 15px' }}>
+          <Form style={{ height: '45px', margin: '0 4vw' }}>
             <input type="text" placeholder="Search..." onChange={this.handleChange} style={{ width: '87%',
               minWidth: 'calc(100% - 150px)', height: '100%', borderTopRightRadius: 0, borderBottomRightRadius: 0,
-              fontSize: '15px', lineHeight: '15px' }} />
-            <Button ref={(ref) => { this.advancedRef = ref; }} icon labelPosition="right" style={{ width: '13%',
-              maxWidth: '150px', height: '100%', margin: 0, borderTopLeftRadius: 0, borderBottomLeftRadius: 0,
-              fontSize: '12px', lineHeight: '12px' }}>
+              borderBottomLeftRadius: this.state.showAdvanced ? 0 : '', fontSize: '15px', lineHeight: '15px' }}/>
+            <Button icon labelPosition="right" style={{ width: '13%',
+              maxWidth: '150px', height: '100%', margin: 0, borderTopLeftRadius: 0,
+              borderBottomRightRadius: this.state.showAdvanced ? 0 : '', borderBottomLeftRadius: 0, fontSize: '12px',
+              lineHeight: '12px' }} onClick={this.handleAdvanced}>
               Advanced Search
-              <Icon name="angle down" />
+              <Icon name={this.state.showAdvanced ? 'angle up' : 'angle down'} />
             </Button>
           </Form>
+          <div style={{ margin: '0px 4vw 15px' }}>
+            <AdvancedSearch setFilter={this.handleFilterChange} shown={this.state.showAdvanced}/>
+          </div>
 
           {Roles.userIsInRole(Meteor.userId(), 'admin') ?
               <Button as={Link} to='/create' basic color="green" className="new-button">
