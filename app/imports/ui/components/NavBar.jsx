@@ -12,7 +12,7 @@ class NavBar extends React.Component {
     return (
       <Menu attached="top" borderless inverted>
         <Menu.Item as={NavLink} activeClassName="" exact to="/">
-          <Header inverted as='h1'>Campus Cloud</Header>
+          <Header inverted as='h1' style={{ fontSize: '1.9rem' }}>Campus Cloud</Header>
         </Menu.Item>
         <Menu.Item as={NavLink} activeClassName="active" exact to="/list" key='list'>Browse RIOs</Menu.Item>
         {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
