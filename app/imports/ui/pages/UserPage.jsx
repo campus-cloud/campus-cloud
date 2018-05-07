@@ -1,9 +1,9 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Header, Loader, Segment, Message, Icon, Button, List, Label } from 'semantic-ui-react';
+import { Tags } from '/imports/api/tags/tags';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { Interests } from '../../api/interests/interests';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class UserPage extends React.Component {
@@ -49,10 +49,10 @@ UserPage.propTypes = {
 export default withTracker(() => {
   // Get access to Clubs documents.
   const subscription = Meteor.subscribe('Clubs');
-  const subscription2 = Meteor.subscribe('Interests');
+  const subscription2 = Meteor.subscribe('Tags');
 
   return {
-    interests: Interests.find().fetch(),
+    interests: Tags.find().fetch(),
     ready: subscription.ready() && subscription2.ready(),
     currentUser: Meteor.user() ? Meteor.user().username : '',
   };

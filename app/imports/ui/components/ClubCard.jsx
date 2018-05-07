@@ -16,8 +16,6 @@ class ClubCard extends React.Component {
 
     this.handleActivate = this.handleActivate.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.activateRef = null;
-    this.deleteRef = null;
   }
 
   // Prevent card from updating unless it's contents have changed or the width changed
@@ -62,6 +60,7 @@ class ClubCard extends React.Component {
     const detailContentStyle = { display: 'flex', width: 'calc(100% - 78px)', flexDirection: 'column', paddingLeft: 0,
       border: 0 };
     const metaStyle = { marginTop: '3px', marginLeft: 0 };
+    const typeStyle = { color: '#888' };
     const descriptionStyle = { marginBottom: '10px', flex: 1 };
     const buttonGroupStyle = { width: 'unset', marginLeft: '-64px' };
 
@@ -83,8 +82,8 @@ class ClubCard extends React.Component {
     // Add buttons for admins
     if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
       displayedButtons.push(
-          <Button ref={(ref) => { this.activateRef = ref; }} key="activate" fluid basic color="grey" className="activate-button" onClick={this.handleActivate}>{this.state.active ? 'Deactivate' : 'Activate'}</Button>,
-          <Button ref={(ref) => { this.deleteRef = ref; }} key="delete" fluid basic color="red" className="delete-button" onClick={this.handleDelete}>Delete</Button>,
+          <Button key="activate" fluid basic color="grey" className="activate-button" onClick={this.handleActivate}>{this.state.active ? 'Deactivate' : 'Activate'}</Button>,
+          <Button key="delete" fluid basic color="red" className="delete-button" onClick={this.handleDelete}>Delete</Button>,
       );
     }
 
@@ -93,7 +92,7 @@ class ClubCard extends React.Component {
     // Add spacing between vertical buttons (only when there are more than two buttons)
     if (buttons >= 3) {
       for (let i = buttons - 1; i >= 1; i--) {
-        displayedButtons.splice(i, 0, <div style={buttonSpacerStyle}/>);
+        displayedButtons.splice(i, 0, <div key={`separator-${i}`} style={buttonSpacerStyle}/>);
       }
     }
 
@@ -105,6 +104,12 @@ class ClubCard extends React.Component {
       </Label>);
     }
 
+    const tagElement = (
+        tags.length === 0 ? '' : <Card.Meta style={metaStyle}>
+          {tags}
+        </Card.Meta>
+    );
+
     return (
         <Card style={cardStyle}>
           <Card.Content style={{ flex: 'unset' }}>
@@ -115,8 +120,9 @@ class ClubCard extends React.Component {
               {this.props.club.name}
             </Card.Header>
             <Card.Meta style={metaStyle}>
-              {tags}
+              <span style={typeStyle}>{this.props.club.type}</span>
             </Card.Meta>
+            {tagElement}
             <Card.Description style={descriptionStyle}>
               {this.props.club.description.length > 123 ? `${this.props.club.description.substring(0, 120)}...`
                   : this.props.club.description}

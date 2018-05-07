@@ -37,10 +37,11 @@
       "active": true
     }
   ],
-  "defaultInterests": [
+  "defaultTags": [
     {
-      "interests": ["acm", "media", "graphics", "art"],
-      "owner": "user@clo.ud"
+      "name": "ics",
+      "clubs": [],
+      "users": ["user@clo.ud"]
     }
   ]
 }
