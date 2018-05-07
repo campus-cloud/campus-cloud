@@ -3,7 +3,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Segment, Header, Button, Icon, Form, Card, Loader, Message } from 'semantic-ui-react';
 import { Clubs } from '/imports/api/club/club';
-import { Interests } from '/imports/api/interests/interests';
+import { Tags } from '/imports/api/tags/tags';
 import ClubCard from '/imports/ui/components/ClubCard';
 import AdvancedSearch from '/imports/ui/components/AdvancedSearch';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -383,10 +383,10 @@ ListClubs.propTypes = {
 export default withTracker(() => {
   // Get access to Clubs documents.
   const clubSubscription = Meteor.subscribe('Clubs');
-  const tagSubscription = Meteor.subscribe('Interests');
+  const tagSubscription = Meteor.subscribe('Tags');
 
   const tagMap = new Map();
-  const tags = Interests.find().fetch();
+  const tags = Tags.find().fetch();
 
   if (tagSubscription.ready()) {
     for (let i = 0; i < tags.length; i++) {

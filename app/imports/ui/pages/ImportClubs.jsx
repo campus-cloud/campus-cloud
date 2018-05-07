@@ -2,7 +2,7 @@
 /* global window */
 import React from 'react';
 import { Clubs } from '/imports/api/club/club';
-import { Interests } from '/imports/api/interests/interests';
+import { Tags } from '/imports/api/tags/tags';
 import { Grid, Header, Form, Segment, TextArea, Button, Modal, Loader } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
@@ -88,11 +88,11 @@ class ImportClubs extends React.Component {
       checkProcessFinish();
 
       for (const [tagName, clubs] of tags) {
-        const tag = Interests.findOne({ name: tagName });
+        const tag = Tags.findOne({ name: tagName });
 
         if (tag !== undefined) {
           const newClubs = tag.clubs.concat(clubs);
-          Interests.update(tag._id, { $set: { clubs: newClubs } }, (error) => {
+          Tags.update(tag._id, { $set: { clubs: newClubs } }, (error) => {
             if (error) {
               console.error('Failed to update tag', tagName, error);
               stats.tags.fail++;
@@ -103,7 +103,7 @@ class ImportClubs extends React.Component {
             checkProcessFinish();
           });
         } else {
-          Interests.insert({
+          Tags.insert({
             name: tagName,
             clubs: clubs,
             users: [],
@@ -281,7 +281,7 @@ class ImportClubs extends React.Component {
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
   // Get access to Interest documents.
-  const subscription = Meteor.subscribe('Interests');
+  const subscription = Meteor.subscribe('Tags');
   return {
     ready: subscription.ready(),
   };
