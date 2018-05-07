@@ -8,7 +8,6 @@ import SubmitField from 'uniforms-semantic/SubmitField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import HiddenField from 'uniforms-semantic/HiddenField';
 import { Bert } from 'meteor/themeteorchef:bert';
-import { Meteor } from 'meteor/meteor';
 
 /** Renders the Page for adding a document. */
 class CreateClub extends React.Component {

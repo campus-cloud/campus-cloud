@@ -132,6 +132,11 @@
   font-size: 0.85714286rem;
 }
 
+.ui[class*="right labeled"].icon.button.sort-order {
+  padding-right: 3.57142857em !important;
+  padding-left: 1em !important;
+}
+
 @media only screen and (max-width: 767px) {
   div.ui.container {
     margin: 0 !important;

@@ -3,6 +3,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Segment, Header, Button, Icon, Form, Card, Loader, Message } from 'semantic-ui-react';
 import { Clubs } from '/imports/api/club/club';
+import { Interests } from '/imports/api/interests/interests';
 import ClubCard from '/imports/ui/components/ClubCard';
 import AdvancedSearch from '/imports/ui/components/AdvancedSearch';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -32,11 +33,10 @@ class ListClubs extends React.Component {
         sort: 'relevance',
         order: 'descending',
       },
-      timestamp: Date.now(),
     };
 
     this.clubs = [];
-    this.categories = [];
+    this.types = [];
     this.searchTimeout = undefined;
 
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -57,9 +57,6 @@ class ListClubs extends React.Component {
     if (this.state.showAdvanced !== nextState.showAdvanced) {
       return true;
     }
-    if (this.state.timestamp !== nextState.timestamp) {
-      return true;
-    }
 
     return false;
   }
@@ -68,19 +65,25 @@ class ListClubs extends React.Component {
     let interval;
     interval = setInterval(() => {
       if (this.props.ready) {
-        this.clubs = this.props.clubs;
-        this.setState({ ready: true });
+        this.clubs = this.search(this.state.search, this.state.filter);
+
+        this.types = [];
+        for (let i = 0; i < this.props.clubs.length; i++) {
+          if (this.types.indexOf(this.props.clubs[i].type) === -1) {
+            this.types.push(this.props.clubs[i].type);
+          }
+        }
+        this.types.sort();
 
         clearInterval(interval);
         interval = undefined;
+
+        this.setState({ ready: true });
       }
     }, 50);
-    this.setState({ interval: interval }, () => {
-      this.updateWindowDimensions();
-      this.search('');
-    });
 
     window.addEventListener('resize', this.updateWindowDimensions);
+    this.updateWindowDimensions();
   }
 
   componentWillUnmount() {
@@ -107,8 +110,8 @@ class ListClubs extends React.Component {
     this.setState({ showAdvanced: !this.state.showAdvanced });
   }
 
-  handleFilterChange(tags, type, sort, order) {
-    this.setState({ filter: { tags, type, sort, order } }, this.doSearch);
+  handleFilterChange(tags, types, sort, order) {
+    this.setState({ filter: { tags, types, sort, order } }, this.doSearch);
   }
 
   handleChange(event) {
@@ -124,11 +127,55 @@ class ListClubs extends React.Component {
     this.searchTimeout = setTimeout(() => {
       this.searchTimeout = undefined;
       this.clubs = this.search(this.state.search, this.state.filter);
-      this.setState({ timestamp: Date.now() });
+      this.forceUpdate();
     }, 250);
   }
 
   search(searchTerms, filter) {
+    let clubs = this.props.clubs.slice();
+
+    if (filter.tags.length > 0 || filter.types.length > 0) {
+      const clubMap = new Map();
+      const tagIDs = [];
+      const typeIDs = [];
+      let filtered;
+
+      for (let i = 0; i < clubs.length; i++) {
+        clubMap.set(clubs[i]._id, clubs[i]);
+      }
+
+      for (let i = 0; i < filter.tags.length; i++) {
+        const tag = this.props.tags.get(filter.tags[i]);
+        for (let j = 0; j < tag.clubs.length; j++) {
+          if (tagIDs.indexOf(tag.clubs[j]) === -1) {
+            tagIDs.push(tag.clubs[j]);
+          }
+        }
+      }
+
+      for (let i = 0; i < clubs.length; i++) {
+        if (filter.types.indexOf(clubs[i].type) > -1) {
+          typeIDs.push(clubs[i]._id);
+        }
+      }
+
+      if (tagIDs.length === 0) {
+        filtered = typeIDs;
+      } else if (typeIDs.length === 0) {
+        filtered = tagIDs;
+      } else {
+        filtered = tagIDs.filter(element => typeIDs.indexOf(element) > -1);
+      }
+
+      clubs = [];
+
+      for (let i = 0; i < this.props.clubs.length; i++) {
+        if (filtered.indexOf(this.props.clubs[i]._id) > -1) {
+          clubs.push(this.props.clubs[i]);
+        }
+      }
+    }
+
     const termReplacements = [
       // Hawaiian vowels
       [/ā/g, 'a'],
@@ -156,11 +203,9 @@ class ListClubs extends React.Component {
     let terms = searchTerms.toLowerCase().trim();
 
     if (terms === '') {
-      const results = this.props.clubs.slice();
+      clubs.sort((a, b) => (a.name < b.name ? -order : order));
 
-      results.sort((a, b) => (a.name < b.name ? -order : order));
-
-      return results;
+      return clubs;
     }
 
     for (let i = 0; i < termReplacements.length; i++) {
@@ -169,8 +214,8 @@ class ListClubs extends React.Component {
     terms = terms.split(' ');
 
     let results = [];
-    for (let i = 0; i < this.props.clubs.length; i++) {
-      const club = this.props.clubs[i];
+    for (let i = 0; i < clubs.length; i++) {
+      const club = clubs[i];
       let comparisonName = club.name.toLowerCase();
       let comparisonDescription = club.description.toLowerCase();
       const matches = { name: { high: [], low: [] }, description: { high: [], low: [] } };
@@ -243,7 +288,7 @@ class ListClubs extends React.Component {
         return a.name < b.name ? -order : order;
       } else if (this.state.filter.sort === 'alphabetical') {
         return a.name < b.name ? -order : order;
-      } else if (this.state.filter.sort === 'created') {
+      } else if (this.state.filter.sort === 'date created') {
         return a.created < b.created ? -order : order;
       }
 
@@ -294,7 +339,8 @@ class ListClubs extends React.Component {
             </Button>
           </Form>
           <div style={{ margin: '0px 4vw 15px' }}>
-            <AdvancedSearch setFilter={this.handleFilterChange} shown={this.state.showAdvanced}/>
+            <AdvancedSearch tags={this.props.tagArray} types={this.types} setFilter={this.handleFilterChange}
+                            shown={this.state.showAdvanced}/>
           </div>
 
           {Roles.userIsInRole(Meteor.userId(), 'admin') ?
@@ -328,16 +374,30 @@ class ListClubs extends React.Component {
 /** Require an array of Club documents in the props. */
 ListClubs.propTypes = {
   clubs: PropTypes.array.isRequired,
+  tags: PropTypes.object.isRequired,
+  tagArray: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
 };
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
   // Get access to Clubs documents.
-  const subscription = Meteor.subscribe('Clubs');
+  const clubSubscription = Meteor.subscribe('Clubs');
+  const tagSubscription = Meteor.subscribe('Interests');
+
+  const tagMap = new Map();
+  const tags = Interests.find().fetch();
+
+  if (tagSubscription.ready()) {
+    for (let i = 0; i < tags.length; i++) {
+      tagMap.set(tags[i].name, tags[i]);
+    }
+  }
+
   return {
-    clubs: Clubs.find(Roles.userIsInRole(Meteor.userId(), 'admin') ? {} : { active: true }).fetch()
-        .sort((a, b) => (a.name < b.name ? -1 : 1)),
-    ready: subscription.ready(),
+    clubs: Clubs.find(Roles.userIsInRole(Meteor.userId(), 'admin') ? {} : { active: true }).fetch(),
+    tags: tagMap,
+    tagArray: tags,
+    ready: (() => clubSubscription.ready() && tagSubscription.ready())(),
   };
 })(ListClubs);
